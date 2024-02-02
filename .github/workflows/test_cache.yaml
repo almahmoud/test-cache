@@ -55,7 +55,7 @@ jobs:
                 '/tmp/test'
             ]
             const keyList = [
-                'pkg2','pkg3'
+                'pkg1','pkg2','pkg3'
             ]
 
             for (const key of keyList) {
