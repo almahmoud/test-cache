@@ -46,21 +46,11 @@ jobs:
 
       - name: Install NPM package
         run: npm install @actions/cache
-      - uses: actions/github-script@v7
-        name: Artifact script
-        with:
-          script: |
-            const cache = require('@actions/cache');
-            const paths = [
-                '/tmp/test'
-            ]
-            const keyList = [
-                'pkg1','pkg2','pkg3'
-            ]
 
-            for (const key of keyList) {
-              const restoreKeys = [];
-              const cacheKey = await cache.restoreCache(paths, key, restoreKeys)
-            }
+      - uses: almahmoud/multi-cache-restore-action@main
+        name: Multi-cache
+        with:
+          keys: "'pkg1','pkg2'"
+          paths: "'/tmp/test'"
 
       - run: ls /tmp/test
