@@ -36,7 +36,6 @@ jobs:
           mkdir -p /tmp/test/pkg3
           echo '3' > /tmp/test/pkg3/3
 
-
       - name: Cache test
         uses: actions/cache/save@v4
         with:
@@ -44,13 +43,10 @@ jobs:
             /tmp/test
           key: pkg3
 
-      - name: Install NPM package
-        run: npm install @actions/cache
-
       - uses: almahmoud/multi-cache-restore-action@main
         name: Multi-cache
         with:
-          keys: "'pkg1','pkg2'"
+          keys: "'pkg1','pkg2','pkg3'"
           paths: "'/tmp/test'"
 
       - run: ls /tmp/test
