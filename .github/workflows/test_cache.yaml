@@ -69,7 +69,6 @@ jobs:
       #     paths: "'/tmp/test'"
 
       - uses: actions/download-artifact@v4
-        if: steps.deps.outputs.deplist != '' && matrix.config.type == 'bbs' && steps.artdeps.outputs.difflist != ''
         with:
           pattern: "{pkg1,pkg2}"
           path: "/tmp/test"
