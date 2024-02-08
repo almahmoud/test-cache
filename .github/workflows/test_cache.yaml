@@ -17,6 +17,12 @@ jobs:
           path: |
             /tmp/test
           key: pkg1
+          
+      - name: Upload library as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "pkg1"
+          path: "/tmp/test/pkg1"
   
       - shell: bash
         run: |
@@ -29,6 +35,12 @@ jobs:
           path: |
             /tmp/test
           key: pkg2
+
+      - name: Upload library as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "pkg2"
+          path: "/tmp/test/pkg2"
 
       - shell: bash
         run: |
@@ -43,11 +55,24 @@ jobs:
             /tmp/test
           key: pkg3
 
-      - run: rm -rf /tmp/test
-      - uses: almahmoud/multi-cache-restore-action@main
-        name: Multi-cache
+      - name: Upload library as artifact
+        uses: actions/upload-artifact@v4
         with:
-          keys: "'pkg1','pkg2','pkg3'"
-          paths: "'/tmp/test'"
+          name: "pkg3"
+          path: "/tmp/test/pkg3"
+
+      - run: rm -rf /tmp/test
+      # - uses: almahmoud/multi-cache-restore-action@main
+      #   name: Multi-cache
+      #   with:
+      #     keys: "'pkg1','pkg2','pkg3'"
+      #     paths: "'/tmp/test'"
+
+      - uses: actions/download-artifact@v4
+        if: steps.deps.outputs.deplist != '' && matrix.config.type == 'bbs' && steps.artdeps.outputs.difflist != ''
+        with:
+          pattern: "{pkg1,pkg2}"
+          path: "/tmp/test"
+          merge-multiple: true
 
       - run: ls /tmp/test
